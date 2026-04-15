@@ -33,7 +33,7 @@ async function fetchCounter(
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs)
   try {
     const response = await fetch(url, { method, signal: controller.signal })
-    const data = (await response.json()) as { value?: number; likes?: number }
+    const data = (await response.json()) as { value?: number, likes?: number }
     if (typeof data.likes === 'number') {
       return data.likes
     }

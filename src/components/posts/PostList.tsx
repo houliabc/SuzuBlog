@@ -1,4 +1,4 @@
-import { Clock, Ellipsis, FileText, Clock as ClockIcon } from 'lucide-react'
+import { Clock, Clock as ClockIcon, Ellipsis, FileText } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import readingTime from 'reading-time'
@@ -63,12 +63,18 @@ const PostList = ({ posts, translation }: PostListProps) => {
                   <span className="text-gray-400">•</span>
                   <div className="flex items-center">
                     <FileText size={16} className="mr-1" />
-                    <span>{post.contentRaw.replace(/\s+/g, '').length}字</span>
+                    <span>
+                      {post.contentRaw.replace(/\s+/g, '').length}
+                      字
+                    </span>
                   </div>
                   <span className="text-gray-400">•</span>
                   <div className="flex items-center">
                     <ClockIcon size={16} className="mr-1" />
-                    <span>{Math.max(1, Math.ceil(readingTime(post.contentRaw).minutes))}分钟阅读</span>
+                    <span>
+                      {Math.max(1, Math.ceil(readingTime(post.contentRaw).minutes))}
+                      分钟阅读
+                    </span>
                   </div>
                 </div>
                 {/* Title in Frontmatter */}

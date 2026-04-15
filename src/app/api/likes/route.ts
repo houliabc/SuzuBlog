@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 
 interface LikeRecord {
   count: number
@@ -8,12 +9,13 @@ interface LikeRecord {
 }
 
 // 使用内存存储（实际项目中应该使用数据库）
-let likesStore: Map<string, LikeRecord> = new Map()
+const likesStore: Map<string, LikeRecord> = new Map()
 
 export async function GET(request: NextRequest) {
   try {
     const slug = request.nextUrl.searchParams.get('slug')
-    if (!slug) {
+    const hasSlug = slug !== null && slug.trim() !== ''
+    if (hasSlug === false) {
       return NextResponse.json(
         { error: 'Missing slug parameter' },
         { status: 400 },
@@ -36,10 +38,12 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
+    const body = await request.json() as Record<string, unknown>
     const { slug } = body
+    const slugString = typeof slug === 'string' ? slug : null
+    const hasSlugString = slugString !== null && slugString.trim() !== ''
 
-    if (!slug || typeof slug !== 'string') {
+    if (hasSlugString === false) {
       return NextResponse.json(
         { error: 'Invalid slug parameter' },
         { status: 400 },

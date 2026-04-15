@@ -13,17 +13,20 @@ interface CommentsSectionProps {
 }
 
 export default function CommentsSection({
-  walineServerURL,
+  walineServerURL: _walineServerURL,
   twikooEnvId,
   disqusShortname,
-  path,
+  path: _path,
 }: CommentsSectionProps) {
   // 暂时只支持Twikoo和Disqus，Waline后续可以添加
-  if (twikooEnvId && twikooEnvId.length > 0) {
+  const hasTwikoo = twikooEnvId !== null && twikooEnvId !== undefined && twikooEnvId.trim() !== ''
+  const hasDisqus = disqusShortname !== null && disqusShortname !== undefined && disqusShortname.trim() !== ''
+
+  if (hasTwikoo === true) {
     return <TwikooComments environmentId={twikooEnvId} />
   }
-  
-  if (disqusShortname && disqusShortname.length > 0) {
+
+  if (hasDisqus === true) {
     return <DisqusComments disqusShortname={disqusShortname} />
   }
 
